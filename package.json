@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/edtimer/nodePractice/issues"
   },
-  "homepage": "https://github.com/edtimer/nodePractice#readme"
+  "homepage": "https://github.com/edtimer/nodePractice#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
