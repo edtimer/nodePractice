@@ -5,7 +5,7 @@ const server = http.createServer((req, res) => {
   if (req.url === "/") {
     res.write("initializeing server");
     res.write("something else");
-    res.getHeaderNames();
+    console.log(res.getHeaderNames());
     res.end("worksssss");
   } else if (req.url === "/about") {
     res.write("in the about page");
@@ -14,7 +14,10 @@ const server = http.createServer((req, res) => {
     res.end(`
   <h1 style='text-align:center;color:red'>Error cant find page</h1>
   <br>
-  <a  href="/">Go back</a>`);
+  <a style='
+  color: red;
+  background-color: transparent;
+  text-decoration: none;text-align:center;' href="/">Go back</a>`);
   }
 });
 //specify the port
