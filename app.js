@@ -1,23 +1,18 @@
-const http = require("http");
-const { reset } = require("nodemon");
+const { readFile, writeFile } = require("fs");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.end("Home page");
-  }
-  if (req.url === "/about") {
-    //blocking code!!!
-    for (let i = 0; i < 100; i++) {
-      for (let j = 0; j < 100; j++) {
-        console.log(`${i} ${j}`);
+const getText = (path) => {
+  //return a promise with a call back function in it
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf-8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
       }
-    }
-    res.end("About page");
-  } else {
-    res.end("Error page");
-  }
-});
-const port = 5000;
-server.listen(port, () => {
-  console.log(`server is running on port ${port}`);
-});
+    });
+  });
+};
+
+getText("./content/writen.txt")
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
