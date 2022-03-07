@@ -12,7 +12,18 @@ const getText = (path) => {
     });
   });
 };
+//async function
+const start = async () => {
+  try {
+    const first = await getText("./content/writen.txt");
+    const second = await getText("./content/secondwritten.txt");
+    console.log(first, second);
+  } catch (error) {
+    console.log(error);
+  }
+};
+start();
 
-getText("./content/writen.txt")
-  .then((result) => console.log(result))
-  .catch((err) => console.log(err));
+// getText("./content/writen.txt")
+//   .then((result) => console.log(result))
+//   .catch((err) => console.log(err));
