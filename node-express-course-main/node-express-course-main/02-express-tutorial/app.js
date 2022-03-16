@@ -1,5 +1,8 @@
 console.log("Express Tutorial");
+const { readFileSync } = require("fs");
 const http = require("http");
+//get all files
+const homePage = readFileSync("./index.html");
 const server = http.createServer((req, res) => {
   res.writeHead(401, { "content-type": "text-html" });
   console.log(req.url);
@@ -9,6 +12,7 @@ const server = http.createServer((req, res) => {
   } else {
     console.log("the user has hit the server");
     res.write("<h1>Welcome to home page</h1>");
+    res.write(homePage);
     res.end("stuff here");
   }
 });
