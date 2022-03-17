@@ -22,7 +22,7 @@ const path = require("path");
 const app = express();
 
 console.log(__dirname);
-app.use(express.static("./public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
+app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 app.get("/", (req, res) => {
   console.log("home page");
 
