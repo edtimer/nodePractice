@@ -20,10 +20,13 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+
 console.log(__dirname);
+app.use(express.static("./public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 app.get("/", (req, res) => {
   console.log("home page");
-  res.sendFile(__dirname, path.join()); // needs fixing
+
+  res.sendFile(path.resolve(__dirname, "./navbar-app/index.html")); // send file is an express method
 });
 
 app.get("*", (req, res) => {
