@@ -26,11 +26,14 @@ app.use(express.static("./navbar-app/public")); //to get all the required resour
 app.get("/", (req, res) => {
   console.log("home page");
 
-  res.sendFile(path.resolve(__dirname, "./navbar-app/index.html")); // send file is an express method
+  // res.sendFile(path.resolve(__dirname, "./navbar-app/index.html")); // send file is an express method
+  //a better way to send html files
+  //1.adding to static assets (index html is served by default)
+  //2.Server side rendering(tempelate engine)
 });
 
 app.get("*", (req, res) => {
-  res.status(404).send("resource not found");
+  res.status(404).sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
 
 const port = 5000;
