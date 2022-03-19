@@ -30,10 +30,11 @@ app.get("/", (req, res) => {
   //a better way to send html files
   //1.adding to static assets (index html is served by default)
   //2.Server side rendering(tempelate engine)
+  res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
 
 app.get("*", (req, res) => {
-  res.status(404).sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
+  res.status(404).json("data");
 });
 
 const port = 5000;
