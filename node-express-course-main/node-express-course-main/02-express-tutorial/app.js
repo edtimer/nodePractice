@@ -20,7 +20,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-
+const { products, people } = require("./data");
 console.log(__dirname);
 app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 app.get("/", (req, res) => {
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.status(404).json("data");
+  res.status(404).json(products);
 });
 
 const port = 5000;
