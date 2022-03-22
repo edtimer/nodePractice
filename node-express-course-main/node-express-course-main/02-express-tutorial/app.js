@@ -33,10 +33,18 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
 
-app.get("*", (req, res) => {
-  res.status(404).json(products);
+app.get("/api/products", (req, res) => {
+  console.log("/api/products sending all products");
+  res.status(200).json(products);
 });
-
+//using the map function to limit what we retrieve
+app.get("/api/product", (req, res) => {
+  const singleProduct = products.map((product) => {
+    const { id, name, image } = product;
+    return { id, name, image };
+  });
+  res.json(singleProduct);
+});
 const port = 5000;
 app.listen(port, () => {
   console.log(`listening on port ${port} `);
