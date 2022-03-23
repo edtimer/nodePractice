@@ -56,6 +56,14 @@ app.get("/api/people/names", (req, res) => {
   });
   res.json(singleNames);
 });
+app.get("/api/products/:productId", (req, res) => {
+  const { productId } = req.params;
+  console.log(req.params);
+  const singleItem = products.find(
+    (product) => product.id === Number(productId)
+  );
+  res.json(singleItem);
+});
 app.get("api/products/1", (req, res) => {
   const singleProduct = products.find((product) => product.id === 1);
   res.send(singleProduct);
