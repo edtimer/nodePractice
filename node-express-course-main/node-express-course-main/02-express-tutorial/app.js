@@ -45,6 +45,21 @@ app.get("/api/product", (req, res) => {
   });
   res.json(singleProduct);
 });
+app.get("/api/people", (req, res) => {
+  res.json(people);
+  res.end;
+});
+app.get("/api/people/names", (req, res) => {
+  const singleNames = people.map((eachPerson) => {
+    const { name } = eachPerson;
+    return { name };
+  });
+  res.json(singleNames);
+});
+app.get("api/products/1", (req, res) => {
+  const singleProduct = products.find((product) => product.id === 1);
+  res.send(singleProduct);
+});
 const port = 5000;
 app.listen(port, () => {
   console.log(`listening on port ${port} `);
