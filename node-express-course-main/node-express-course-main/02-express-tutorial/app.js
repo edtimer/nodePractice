@@ -17,9 +17,11 @@
 //     res.end("stuff here");
 //   }
 // });
+const { query } = require("express");
 const express = require("express");
 const path = require("path");
 const app = express();
+app.disable("x-powered-by");
 const { products, people } = require("./data");
 console.log(__dirname);
 app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
@@ -30,7 +32,6 @@ app.get("/", (req, res) => {
   //a better way to send html files
   //1.adding to static assets (index html is served by default)
   //2.Server side rendering(tempelate engine)
-  res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
 
 app.get("/api/products", (req, res) => {
@@ -56,6 +57,7 @@ app.get("/api/people/names", (req, res) => {
   });
   res.json(singleNames);
 });
+
 app.get("/api/products/:productId", (req, res) => {
   const { productId } = req.params;
   console.log(req.params);
@@ -67,6 +69,15 @@ app.get("/api/products/:productId", (req, res) => {
 app.get("api/products/1", (req, res) => {
   const singleProduct = products.find((product) => product.id === 1);
   res.send(singleProduct);
+});
+//checking query parameters
+app.get("/api/v1/query", (req, res) => {
+  console.log(req.query); //this provides us with what was sent
+  res.status(403).end("Not allowed");
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
 const port = 5000;
 app.listen(port, () => {
