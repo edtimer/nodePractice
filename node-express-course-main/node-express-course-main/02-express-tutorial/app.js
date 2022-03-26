@@ -71,14 +71,32 @@ app.get("api/products/1", (req, res) => {
   res.send(singleProduct);
 });
 //checking query parameters
-app.get("/api/v1/query", (req, res) => {
-  console.log(req.query); //this provides us with what was sent
-  res.status(403).end("Not allowed");
-});
+// app.get("/api/v1/query", (req, res) => {
+//   console.log(req.query); //this provides us with what was sent
+//   res.status(403).end("Not allowed");
+// });
 
+//what comes after ? is a query what is in :xxx is a param
+app.get("/api/v1/query", (req, res) => {
+  const { search, limit } = req.query;
+
+  //usinglet because we will modify it
+  let itemz = [...products];
+  if (search) {
+    //itemz cannot be const because we keep modifying it
+    itemz = products.filter((prod) => {
+      return prod.name.startsWith(search);
+    });
+  }
+  if (limit) {
+    itemz = itemz.slice(0, Number(limit));
+  }
+  res.status(200).json(itemz);
+});
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
+
 const port = 5000;
 app.listen(port, () => {
   console.log(`listening on port ${port} `);
