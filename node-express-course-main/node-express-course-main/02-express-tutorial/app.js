@@ -25,9 +25,20 @@ app.disable("x-powered-by");
 const { products, people } = require("./data");
 console.log(__dirname);
 app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
-app.get("/", (req, res) => {
-  console.log("home page");
 
+//logging function (middleware)
+const logger = (req, res, next) => {
+  const method = req.method;
+  const url = req.url;
+  const time = new Date().getFullYear();
+  console.log(
+    "method used: " + method + " " + url + " " + "access year is : " + time
+  );
+  //the next method must be added to return the flow to the method requesting the middleware
+  next();
+};
+
+app.get("/", logger, (req, res) => {
   // res.sendFile(path.resolve(__dirname, "./navbar-app/index.html")); // send file is an express method
   //a better way to send html files
   //1.adding to static assets (index html is served by default)
@@ -93,6 +104,8 @@ app.get("/api/v1/query", (req, res) => {
   }
   res.status(200).json(itemz);
 });
+app.get("/api/middle/v1", (req, res) => {});
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "navbar-app/alt.html"));
 });
