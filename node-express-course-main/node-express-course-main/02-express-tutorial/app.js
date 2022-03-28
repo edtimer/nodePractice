@@ -23,6 +23,7 @@ const path = require("path");
 const app = express();
 app.disable("x-powered-by");
 const { products, people } = require("./data");
+const Authorize = require("./navbar-app/Authorize");
 console.log(__dirname);
 app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 
@@ -32,18 +33,27 @@ const logger = (req, res, next) => {
   const url = req.url;
   const time = new Date().getFullYear();
   console.log(
-    "method used: " + method + " " + url + " " + "access year is : " + time
+    "method used: " +
+      method +
+      " " +
+      url +
+      " " +
+      "access year is : " +
+      time +
+      "The user info is:" +
+      req.user
   );
   //the next method must be added to return the flow to the method requesting the middleware
   next();
 };
 
-app.get("/", logger, (req, res) => {
+app.get("/", (req, res) => {
   // res.sendFile(path.resolve(__dirname, "./navbar-app/index.html")); // send file is an express method
   //a better way to send html files
   //1.adding to static assets (index html is served by default)
   //2.Server side rendering(tempelate engine)
 });
+app.use([Authorize, logger]);
 
 app.get("/api/products", (req, res) => {
   console.log("/api/products sending all products");
