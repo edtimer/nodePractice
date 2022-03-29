@@ -22,13 +22,16 @@ const express = require("express");
 const path = require("path");
 const app = express();
 app.disable("x-powered-by");
-const { products, people } = require("./data");
-const Authorize = require("./navbar-app/Authorize");
-console.log(__dirname);
-app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 
+const { products, people } = require("./data");
+//the following enables the authorize middleware
+// const Authorize = require("./navbar-app/Authorize");
+console.log(__dirname);
+//app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
+app.use(express.static("././methods-public"));
 //logging function (middleware)
 const logger = (req, res, next) => {
+  const { user } = req.query;
   const method = req.method;
   const url = req.url;
   const time = new Date().getFullYear();
@@ -40,7 +43,7 @@ const logger = (req, res, next) => {
       " " +
       "access year is : " +
       time +
-      "The user info is:" +
+      "The user info is: " +
       req.user
   );
   //the next method must be added to return the flow to the method requesting the middleware
@@ -53,8 +56,14 @@ app.get("/", (req, res) => {
   //1.adding to static assets (index html is served by default)
   //2.Server side rendering(tempelate engine)
 });
-app.use([Authorize, logger]);
-
+//url encoded express middleware is needed to parse the posted element to request body
+app.use([logger, express.urlencoded({ extended: false })]);
+app.post("/login", (req, res) => {
+  console.log(req.body);
+  res.status(200).json({ name: req.body });
+});
+//stopped using Authorize middleware
+// app.use([Authorize, logger]);
 app.get("/api/products", (req, res) => {
   console.log("/api/products sending all products");
   res.status(200).json(products);
