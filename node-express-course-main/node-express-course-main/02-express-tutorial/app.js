@@ -22,13 +22,14 @@ const express = require("express");
 const path = require("path");
 const app = express();
 app.disable("x-powered-by");
-
-const { products, people } = require("./data");
+const people = require("./router/people");
+const { products } = require("./data");
 //the following enables the authorize middleware
 // const Authorize = require("./navbar-app/Authorize");
 console.log(__dirname);
 //app.use(express.static("./navbar-app/public")); //to get all the required resources for the page (can be to navbar-app or create a folder called public with all resources)
 app.use(express.static("././methods-public"));
+app.use("/api/people", people);
 //logging function (middleware)
 const logger = (req, res, next) => {
   const { user } = req.query;
@@ -75,17 +76,6 @@ app.get("/api/product", (req, res) => {
     return { id, name, image };
   });
   res.json(singleProduct);
-});
-app.get("/api/people", (req, res) => {
-  res.json(people);
-  res.end;
-});
-app.get("/api/people/names", (req, res) => {
-  const singleNames = people.map((eachPerson) => {
-    const { name } = eachPerson;
-    return { name };
-  });
-  res.json(singleNames);
 });
 
 app.get("/api/products/:productId", (req, res) => {
